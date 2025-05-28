@@ -1,6 +1,37 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <button>ボタン</button>
-  </body>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>リッチなボタン</title>
+  <style>
+    body {
+      background: #f3f6fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .rich-button {
+      padding: 16px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg,#3b82f6 0%, #06b6d4 100%);
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.12s, background 0.3s;
+      outline: none;
+    }
+    .rich-button:hover, .rich-button:focus {
+      background: linear-gradient(90deg,#06b6d4 0%, #3b82f6 100%);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+    }
+  </style>
+</head>
+<body>
+  <button class="rich-button">リッチなボタン</button>
+</body>
 </html>
