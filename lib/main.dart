@@ -12,6 +12,13 @@ class Note {
   Note({required this.title, required this.body, required this.date});
 }
 
+class Todo {
+  final String title;
+  bool isDone;
+
+  Todo({required this.title, this.isDone = false});
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -38,6 +45,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Note> _notes = [];
+  final List<Todo> _todos = [];
 
   void _addNewNote() async {
     final note = await Navigator.of(context).push<Note>(
@@ -49,6 +57,23 @@ class _HomeScreenState extends State<HomeScreen> {
         _notes.sort((a, b) => b.date.compareTo(a.date));
       });
     }
+  }
+
+  void _addNewTodo() async {
+    final todo = await Navigator.of(context).push<Todo>(
+      MaterialPageRoute(builder: (_) => const AddTodoPage()),
+    );
+    if (todo != null) {
+      setState(() {
+        _todos.add(todo);
+      });
+    }
+  }
+
+  void _toggleTodoDone(int index) {
+    setState(() {
+      _todos[index].isDone = !_todos[index].isDone;
+    });
   }
 
   void _onItemTapped(int index) {
@@ -65,6 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           const CounterPage(),
           NotesListPage(notes: _notes, onAdd: _addNewNote),
+          TodoListPage(
+            todos: _todos,
+            onAdd: _addNewTodo,
+            onToggle: _toggleTodoDone,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -78,6 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.note),
             label: 'Notes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.checklist),
+            label: 'Todos',
           ),
         ],
       ),
@@ -179,6 +213,44 @@ class NotesListPage extends StatelessWidget {
   }
 }
 
+class TodoListPage extends StatelessWidget {
+  final List<Todo> todos;
+  final VoidCallback onAdd;
+  final Function(int) onToggle;
+
+  const TodoListPage(
+      {super.key,
+      required this.todos,
+      required this.onAdd,
+      required this.onToggle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Todoリスト'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          final todo = todos[index];
+          return CheckboxListTile(
+            title: Text(todo.title),
+            value: todo.isDone,
+            onChanged: (_) => onToggle(index),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onAdd,
+        tooltip: 'Add Todo',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
 class AddNotePage extends StatefulWidget {
   const AddNotePage({super.key});
 
@@ -230,3 +302,48 @@ class _AddNotePageState extends State<AddNotePage> {
     );
   }
 }
+
+class AddTodoPage extends StatefulWidget {
+  const AddTodoPage({super.key});
+
+  @override
+  State<AddTodoPage> createState() => _AddTodoPageState();
+}
+
+class _AddTodoPageState extends State<AddTodoPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _save() {
+    final text = _controller.text.trim();
+    if (text.isEmpty) {
+      Navigator.of(context).pop();
+      return;
+    }
+    final todo = Todo(title: text);
+    Navigator.of(context).pop(todo);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('新規Todo'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: const InputDecoration(labelText: 'Todo'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(onPressed: _save, child: const Text('保存')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
