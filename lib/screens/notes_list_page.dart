@@ -40,7 +40,7 @@ class NotesListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onAdd,
-        tooltip: 'Add Note',
+        tooltip: 'メモを追加',
         child: const Icon(Icons.add),
       ),
     );

@@ -33,7 +33,7 @@ class TodoListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onAdd,
-        tooltip: 'Add Todo',
+        tooltip: 'Todoを追加',
         child: const Icon(Icons.add),
       ),
     );

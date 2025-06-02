@@ -79,15 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.countertops),
-            label: 'Counter',
+            label: 'カウンター',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.note),
-            label: 'Notes',
+            label: 'ノート',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.checklist),
-            label: 'Todos',
+            label: 'Todoリスト',
           ),
         ],
       ),
