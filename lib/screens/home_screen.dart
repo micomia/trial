@@ -6,6 +6,7 @@ import 'add_todo_page.dart';
 import 'counter_page.dart';
 import 'notes_list_page.dart';
 import 'todo_list_page.dart';
+import 'calculator_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onAdd: _addNewTodo,
             onToggle: _toggleTodoDone,
           ),
+          const CalculatorPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -88,6 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.checklist),
             label: 'Todo',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calculate),
+            label: '電卓',
           ),
         ],
       ),
