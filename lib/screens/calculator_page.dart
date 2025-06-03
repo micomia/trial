@@ -88,11 +88,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
     String text = result.toStringAsFixed(10);
     text = text.replaceFirst(RegExp(r'\.0+\$'), '');
     text = text.replaceFirst(RegExp(r'(\.\d+?)0+\$'), r'$1');
-    if (text.replaceAll(RegExp(r'[^0-9]'), '').length > 10) {
-      _display = 'ERR';
-    } else {
-      _display = text;
-    }
+    _display = text;
     _firstOperand = null;
     _operator = null;
     _waitingForSecondOperand = false;
